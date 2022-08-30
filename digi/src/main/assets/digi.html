@@ -1,0 +1,63 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <style>
+        #VocSignalApp .SandSIV_Feedback_Modal {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            height: auto;
+            width: auto;
+            transform: none;
+        }
+
+      
+        .supportMessage {
+            width: 100%;
+            margin-top: 100px;
+            text-align: center;
+        }
+
+    </style>
+    <script type="text/javascript" src="SCRIPT_URL?SCRIPT_PARAMS"></script>
+    <script type="text/javascript">
+            window.VocSignal_ListenEvent('PopupClosedCallback', () => {
+                    const event = new Event('window_close');
+
+                    // Dispatch the event.
+                    window.dispatchEvent(event);
+                    window.androidEventHandler.dispatchEvent("window_close");
+            })
+
+            window.VocSignal_ListenEvent('FinishCallback', () => {
+                    const event = new Event('window_close');
+
+                    // Dispatch the event.
+                    window.dispatchEvent(event);
+                    window.androidEventHandler.dispatchEvent("window_close");
+            })
+
+            let timerId = null;
+            const callbackName = 'PopupShownCallback';
+            window.VocSignal_ListenEvent(callbackName, () => {
+            let timerId = setInterval(() => {
+                let elements = document.getElementsByClassName('SandSIV_Feedback_Modal');
+
+                if(elements.length) {
+                    clearInterval(timerId);
+                    setTimeout(() => {
+                        window.androidEventHandler.dispatchEvent("window_show");
+                    }, 0)
+             }
+            }, 10)
+        //alert(callbackName);
+    })
+
+
+    </script>
+</head>
+</html>
